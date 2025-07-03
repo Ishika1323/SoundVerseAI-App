@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soundverse Duplex Voice Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="container">
+                <div class="header-content">
+                    <h1 class="app-title">
+                        <span class="soundverse-logo">🎵</span>
+                        Soundverse Duplex Voice Assistant
+                    </h1>
+                    <div class="connection-status">
+                        <div class="status-indicator" id="connectionStatus">
+                            <span class="status-dot"></span>
+                            <span class="status-text">Connected</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Voice Control Section -->
+                <section class="voice-control-section">
+                    <div class="voice-interface">
+                        <div class="talk-button-container">
+                            <button class="talk-button" id="talkButton">
+                                <div class="talk-button-inner">
+                                    <div class="microphone-icon">🎤</div>
+                                    <span class="talk-text">Click to Talk</span>
+                                </div>
+                                <div class="pulse-ring"></div>
+                            </button>
+                        </div>
+                        <div class="voice-status" id="voiceStatus">
+                            <p>Ready to listen for voice commands</p>
+                        </div>
+                    </div>
+
+                    <!-- File Upload Area -->
+                    <div class="file-upload-area">
+                        <div class="upload-zone" id="uploadZone">
+                            <div class="upload-icon">📁</div>
+                            <p>Drop audio file here or click to upload</p>
+                            <input type="file" id="audioFileInput" accept="audio/*" hidden>
+                        </div>
+                        <div class="current-file" id="currentFile" style="display: none;">
+                            <span class="file-name"></span>
+                            <button class="btn btn--sm" id="removeFile">Remove</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Main Dashboard -->
+                <div class="dashboard-grid">
+                    <!-- Audio Effects Panel -->
+                    <section class="effects-panel card">
+                        <div class="card__header">
+                            <h2>Audio Effects</h2>
+                            <div class="effect-chain-toggle">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="effectsEnabled" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span>Effects On</span>
+                            </div>
+                        </div>
+                        <div class="card__body">
+                            <div class="effects-grid" id="effectsGrid">
+                                <!-- Effects will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- System Status Dashboard -->
+                    <section class="status-dashboard card">
+                        <div class="card__header">
+                            <h2>System Status</h2>
+                        </div>
+                        <div class="card__body">
+                            <div class="status-metrics">
+                                <div class="metric-card">
+                                    <div class="metric-label">Latency</div>
+                                    <div class="metric-value" id="latencyValue">
+                                        <span class="value">245</span>
+                                        <span class="unit">ms</span>
+                                    </div>
+                                    <div class="metric-status status--success">Excellent</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">Audio Level</div>
+                                    <div class="audio-meter">
+                                        <div class="meter-bar" id="audioMeter"></div>
+                                    </div>
+                                    <div class="metric-value">
+                                        <span class="value" id="audioLevel">-12</span>
+                                        <span class="unit">dB</span>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">CPU Usage</div>
+                                    <div class="cpu-meter">
+                                        <div class="meter-fill" id="cpuMeter" style="width: 35%"></div>
+                                    </div>
+                                    <div class="metric-value">
+                                        <span class="value" id="cpuUsage">35</span>
+                                        <span class="unit">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Audio Visualization -->
+                    <section class="audio-visualization card">
+                        <div class="card__header">
+                            <h2>Audio Visualization</h2>
+                            <div class="visualization-controls">
+                                <button class="btn btn--sm visualization-toggle active" data-viz="waveform">Waveform</button>
+                                <button class="btn btn--sm visualization-toggle" data-viz="spectrum">Spectrum</button>
+                            </div>
+                        </div>
+                        <div class="card__body">
+                            <canvas id="audioCanvas" width="600" height="200"></canvas>
+                        </div>
+                    </section>
+
+                    <!-- Voice Commands Panel -->
+                    <section class="voice-commands card">
+                        <div class="card__header">
+                            <h2>Voice Commands</h2>
+                        </div>
+                        <div class="card__body">
+                            <div class="commands-list" id="commandsList">
+                                <!-- Voice commands will be populated by JavaScript -->
+                            </div>
+                            <div class="recent-commands">
+                                <h4>Recent Commands</h4>
+                                <div class="command-history" id="commandHistory">
+                                    <div class="command-item">
+                                        <span class="command-text">"Add reverb"</span>
+                                        <span class="command-time">2 min ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Technical Details Panel -->
+                <section class="technical-details">
+                    <div class="card">
+                        <div class="card__header">
+                            <h2>Technical Implementation</h2>
+                            <button class="btn btn--outline" id="toggleTechnical">Show Details</button>
+                        </div>
+                        <div class="card__body technical-content" id="technicalContent" style="display: none;">
+                            <div class="tech-grid">
+                                <div class="architecture-diagram">
+                                    <h3>System Architecture</h3>
+                                    <img src="https://pplx-res.cloudinary.com/image/upload/v1751224382/pplx_code_interpreter/2284f0fe_uhke25.jpg" alt="Soundverse Architecture" class="architecture-image">
+                                </div>
+                                <div class="web-audio-graph">
+                                    <h3>Web Audio API Chain</h3>
+                                    <img src="https://pplx-res.cloudinary.com/image/upload/v1751224621/pplx_code_interpreter/bf0b6638_dfgpmb.jpg" alt="Web Audio API Effects Chain" class="web-audio-image">
+                                </div>
+                                <div class="performance-metrics">
+                                    <h3>Performance Metrics</h3>
+                                    <div class="metrics-table">
+                                        <div class="metric-row">
+                                            <span class="metric-name">Buffer Size</span>
+                                            <span class="metric-value">256 samples</span>
+                                        </div>
+                                        <div class="metric-row">
+                                            <span class="metric-name">Sample Rate</span>
+                                            <span class="metric-value">44,100 Hz</span>
+                                        </div>
+                                        <div class="metric-row">
+                                            <span class="metric-name">Bit Depth</span>
+                                            <span class="metric-value">32-bit float</span>
+                                        </div>
+                                        <div class="metric-row">
+                                            <span class="metric-name">Channels</span>
+                                            <span class="metric-value">Stereo (2)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="implementation-notes">
+                                    <h3>Implementation Notes</h3>
+                                    <ul>
+                                        <li>Real-time audio processing using Web Audio API</li>
+                                        <li>Voice command recognition via WebRTC</li>
+                                        <li>Low-latency processing with AudioWorklet</li>
+                                        <li>Automatic gain control and noise suppression</li>
+                                        <li>Cross-browser compatibility layer</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <p>&copy; 2025 Soundverse. Professional Audio Processing Technology.</p>
+                    <div class="system-info">
+                        <span>Web Audio API Enabled</span>
+                        <span>•</span>
+                        <span>Chrome 88+ Compatible</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
